@@ -98,7 +98,7 @@ public interface NotifyRemindMapper {
                     "          #{notifyRemind.objectContent},\n" +
                     "        </if>\n" +
                     "        <if test=\"notifyRemind.actionObjectId != null\">\n" +
-                    "          #{notifyRemind.objectContent},\n" +
+                    "          #{notifyRemind.actionObjectId},\n" +
                     "        </if>\n" +
                     "        <if test=\"notifyRemind.actionObjectContent != null\">\n" +
                     "          #{notifyRemind.actionObjectContent},\n" +

@@ -27,7 +27,7 @@ public class CommentNotifyEventCustomer extends NotifyEventCustomer {
 
     @Override
     protected Integer querySendTo(Event event) {
-        return null;
+        return 123;
     }
 
     @Override

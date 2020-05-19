@@ -38,6 +38,7 @@ public class NotifyService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        notifySettingMap = new ConcurrentHashMap<>();
         List<NotifySetting> notifySettings = notifySettingMapper.queryNotifySettings();
         notifySettings.forEach(e -> notifySettingMap.put(e.getObjectType() + ":" + e.getNotifyAction(), e));
     }
@@ -87,11 +88,18 @@ public class NotifyService implements InitializingBean {
     }
 
     /**
-     * 用户拉取公告
+     * todo 用户拉取公告
      */
     public List<NotifyRemind> pullNotifyAnnounceToRemind(Integer userId) {
         return null;
     }
 
-    // todo C段分页查询
+    /**
+     * todo c段分页查询
+     * @param userId
+     * @return
+     */
+    public List<NotifyRemind> getNotifyRemindsByUserId(Integer userId) {
+        return null;
+    }
 }
