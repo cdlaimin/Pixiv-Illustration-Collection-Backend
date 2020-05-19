@@ -20,7 +20,7 @@ public class IllustNotifyEventCustomer extends NotifyEventCustomer {
     @Override
     @RabbitHandler()
     public void consume(Event event) {
-        //
+        super.notifyAnnounce(event);
     }
 
 

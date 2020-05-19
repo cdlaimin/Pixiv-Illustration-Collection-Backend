@@ -28,5 +28,7 @@ public interface NotifySettingMapper {
             @Result(property = "whetherNotify", column = "whether_notify"),
             @Result(property = "whetherPush", column = "whether_push")
     })
-    List<NotifySetting> queryNotifySetting();
+    List<NotifySetting> queryNotifySettings();
+
+    NotifySetting queryNotifySetting(String objectType, String notifyAction);
 }

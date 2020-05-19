@@ -3,7 +3,6 @@ package dev.cheerfun.pixivic.biz.notify.po;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,19 +10,21 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author OysterQAQ
- * @version 1.0
- * @date 19-12-14 下午9:35
- * @description NotifyRemind
+ *  * @Description TODO
+ *  * @Classname NotifyAnnounce
+ *  * @Author fangzhou
+ *  * @Date 2020/5/19 2:48 下午
+ *  * @Version V1.0
+ *  
  */
 @Data
 @Builder
-public class NotifyRemind implements Serializable {
-    private static final long serialVersionUID = 8048278202507883063L;
+public class NotifyAnnounce implements Serializable {
+    private static final long serialVersionUID = -8480106676309444071L;
     /**
-     * 通知记录id
+     * 公告id
      */
-    private Integer notifyRemindId;
+    private Integer notify_announce_id;
     /**
      * 通知类型
      */
@@ -57,27 +58,9 @@ public class NotifyRemind implements Serializable {
      */
     private String objectContent;
     /**
-     * 接收者id
-     */
-    private Integer recipientId;
-    /**
-     * 创建日期
+     * 创建时间
      */
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime createDate;
-    /**
-     * 阅读状态
-     */
-    private Boolean readStatus;
-    /**
-     * 阅读时间
-     */
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime readAt;
-    /**
-     * 接受公告编号
-     */
-    private Integer notifyAnnounceId;
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface NotifyMapper {
-
+/*
     @Insert("insert into notify_remind (sender_id,sender_name,sender_action,object_id,object_type,recipient_id,create_date) value (#{senderId},#{senderName},#{senderAction},#{objectId},#{objectType},#{recipientId},#{createDate})")
     Integer insertNotifyRemind(NotifyRemind notifyRemind);
 
@@ -50,6 +50,6 @@ public interface NotifyMapper {
             @Result(property = "createDate", column = "create_Date", typeHandler = org.apache.ibatis.type.LocalDateTimeTypeHandler.class),
             @Result(property = "likedCount", column = "liked_count")
     })
-    Comment queryCommentById(Integer commentId);
+    Comment queryCommentById(Integer commentId);*/
 
 }

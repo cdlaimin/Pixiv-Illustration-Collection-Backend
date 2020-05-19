@@ -15,15 +15,13 @@ import java.io.Serializable;
  *  
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class NotifySetting implements Serializable {
     private static final long serialVersionUID = -4490388411262726884L;
 
     /**
      * 通知配置id
      */
-    private Long notifySettingId;
+    private Integer notifySettingId;
 
     /**
      * 所属模块

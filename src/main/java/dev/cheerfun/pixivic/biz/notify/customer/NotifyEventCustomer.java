@@ -2,14 +2,13 @@ package dev.cheerfun.pixivic.biz.notify.customer;
 
 import com.google.common.base.Preconditions;
 import dev.cheerfun.pixivic.biz.event.domain.Event;
+import dev.cheerfun.pixivic.biz.notify.po.NotifyAnnounce;
 import dev.cheerfun.pixivic.biz.notify.po.NotifyRemind;
 import dev.cheerfun.pixivic.biz.notify.po.NotifySetting;
 import dev.cheerfun.pixivic.biz.notify.service.NotifyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.LocalDateTime;
 
 
 public abstract class NotifyEventCustomer {
@@ -28,7 +27,8 @@ public abstract class NotifyEventCustomer {
      */
     protected void notifyAny(Event event) {
         try {
-            NotifySetting notifySetting = notifyService.getNotifySetting(event.getObjectType(), event.getAction());
+            Preconditions.checkNotNull(event);
+            NotifySetting notifySetting = queryNotifySetting(event.getObjectType(), event.getAction());
             Preconditions.checkNotNull(notifySetting);
             Preconditions.checkArgument(notifySetting.getWhetherNotify() || notifySetting.getWhetherPush());
             Integer sendTo = querySendTo(event);
@@ -36,19 +36,41 @@ public abstract class NotifyEventCustomer {
                 return;
             }
             NotifyRemind notifyRemind = generateRemind(event, sendTo, notifySetting);
-            if(notifySetting.getWhetherNotify()) {
+            if (notifySetting.getWhetherNotify()) {
                 saveNotifyRemind(notifyRemind);
             }
-            if(notifySetting.getWhetherPush()) {
+            if (notifySetting.getWhetherPush()) {
                 push();
             }
         } catch (NullPointerException ne) {
-            logger.warn("notifyEventCustomer notifySetting is null,event:{}", event);
+            logger.warn("notifyEventCustomer notifyAny notifySetting is null,event:{}", event);
         } catch (IllegalArgumentException illegalArgumentException) {
-            logger.warn("notifyEventCustomer setting no notify and push,event:{}", event);
+            logger.warn("notifyEventCustomer notifyAny setting no notify and push,event:{}", event);
         } catch (Exception e) {
-            logger.error("notifyEventCustomer process error,event:" + event, e);
+            logger.error("notifyEventCustomer notifyAny error,event:" + event, e);
         }
+    }
+
+    protected void notifyAnnounce(Event event) {
+        try {
+            Preconditions.checkNotNull(event);
+            NotifySetting notifySetting = queryNotifySetting(event.getObjectType(), event.getAction());
+            Preconditions.checkNotNull(notifySetting);
+            Preconditions.checkArgument(notifySetting.getWhetherNotify());
+            NotifyAnnounce notifyAnnounce = generateAnnounce(event, notifySetting);
+            saveNotifyAnnounce(notifyAnnounce);
+        } catch (NullPointerException ne) {
+            logger.warn("notifyEventCustomer processAnnounce notifySetting is null,event:{}", event);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            logger.warn("notifyEventCustomer processAnnounce setting no notify and push,event:{}", event);
+        } catch (Exception e) {
+            logger.error("notifyEventCustomer processAnnounce error,event:" + event, e);
+        }
+    }
+
+
+    private NotifySetting queryNotifySetting(String objectType, String action) {
+        return notifyService.getNotifySetting(objectType, objectType);
     }
 
     protected Integer querySendTo(Event event) {
@@ -65,14 +87,30 @@ public abstract class NotifyEventCustomer {
                 .objectId(event.getObjectId())
                 .objectTitle(event.getObjectTitle())
                 .recipientId(sendTo)
-                .createDate(LocalDateTime.now())
                 .readStatus(false)
-                .readAt(null).build();
+                .build();
     }
 
-    protected void saveNotifyRemind(NotifyRemind remind) {
+    protected NotifyAnnounce generateAnnounce(Event event, NotifySetting notifySetting) {
+        return NotifyAnnounce.builder()
+                .notifyType(notifySetting.getNotifyType())
+                .senderId(event.getUserId())
+                .senderName(event.getUserName())
+                .senderAction(event.getAction())
+                .objectType(event.getObjectType())
+                .objectId(event.getObjectId())
+                .objectTitle(event.getObjectTitle()).build();
+
+    }
+
+    private void saveNotifyRemind(NotifyRemind remind) {
         notifyService.saveNotifyRemind(remind);
     }
+
+    private void saveNotifyAnnounce(NotifyAnnounce notifyAnnounce) {
+        notifyService.saveNotifyAnnounce(notifyAnnounce);
+    }
+
 
     protected void push() {
 

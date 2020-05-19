@@ -21,6 +21,6 @@ public class CollectionNotifyEventCustomer extends NotifyEventCustomer {
     @Override
     @RabbitHandler()
     public void consume(Event event) {
-        //
+        super.notifyAny(event);
     }
 }

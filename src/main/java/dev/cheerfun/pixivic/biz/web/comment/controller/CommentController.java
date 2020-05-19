@@ -41,7 +41,7 @@ public class CommentController {
         commentService.pushComment(comment);
 //        //如果不是顶层(即存在被回复人)产生通知事件
         if (comment.getReplyTo() != 0) {
-            eventPublisher.publish(new Event(userId, comment.getReplyFromName(), ActionType.REPLIED, ObjectType.COMMENT, comment.getParentId(), LocalDateTime.now()));
+            //eventPublisher.publish(new Event(userId, comment.getReplyFromName(), ActionType.REPLIED, ObjectType.COMMENT, comment.getParentId(), LocalDateTime.now()));
         }
         return ResponseEntity.ok().body(new Result<>("评论成功"));
     }
