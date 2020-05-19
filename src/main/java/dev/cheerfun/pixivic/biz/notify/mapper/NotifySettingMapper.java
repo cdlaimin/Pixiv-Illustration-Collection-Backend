@@ -1,10 +1,7 @@
 package dev.cheerfun.pixivic.biz.notify.mapper;
 
 import dev.cheerfun.pixivic.biz.notify.po.NotifySetting;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -30,5 +27,15 @@ public interface NotifySettingMapper {
     })
     List<NotifySetting> queryNotifySettings();
 
-    NotifySetting queryNotifySetting(String objectType, String notifyAction);
+
+    @Select("select * from notify_setting where object_type = #{objectType} and notify_action = #{notifyAction}")
+    @Results({
+            @Result(property = "notifySettingId", column = "notify_setting_id"),
+            @Result(property = "objectType", column = "object_type"),
+            @Result(property = "notifyAction", column = "notify_action"),
+            @Result(property = "notifyType", column = "notify_type"),
+            @Result(property = "whetherNotify", column = "whether_notify"),
+            @Result(property = "whetherPush", column = "whether_push")
+    })
+    NotifySetting queryNotifySetting(@Param("objectType") String objectType, @Param("notifyAction") String notifyAction);
 }

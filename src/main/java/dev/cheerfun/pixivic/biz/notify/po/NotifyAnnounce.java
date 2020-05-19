@@ -24,7 +24,7 @@ public class NotifyAnnounce implements Serializable {
     /**
      * 公告id
      */
-    private Integer notify_announce_id;
+    private Integer notifyAnnounceId;
     /**
      * 通知类型
      */
