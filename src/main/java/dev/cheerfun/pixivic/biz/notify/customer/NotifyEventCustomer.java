@@ -78,29 +78,11 @@ public abstract class NotifyEventCustomer {
     }
 
     protected NotifyRemind generateRemind(Event event, Integer sendTo, NotifySetting notifySetting) {
-        return NotifyRemind.builder()
-                .senderId(event.getUserId())
-                .senderName(event.getUserName())
-                .notifyType(notifySetting.getNotifyType())
-                .senderAction(event.getAction())
-                .objectType(event.getObjectType())
-                .objectId(event.getObjectId())
-                .objectTitle(event.getObjectTitle())
-                .recipientId(sendTo)
-                .readStatus(false)
-                .build();
+        throw new UnsupportedOperationException();
     }
 
     protected NotifyAnnounce generateAnnounce(Event event, NotifySetting notifySetting) {
-        return NotifyAnnounce.builder()
-                .notifyType(notifySetting.getNotifyType())
-                .senderId(event.getUserId())
-                .senderName(event.getUserName())
-                .senderAction(event.getAction())
-                .objectType(event.getObjectType())
-                .objectId(event.getObjectId())
-                .objectTitle(event.getObjectTitle()).build();
-
+        throw new UnsupportedOperationException();
     }
 
     private void saveNotifyRemind(NotifyRemind remind) {

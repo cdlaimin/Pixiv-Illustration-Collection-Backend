@@ -4,6 +4,7 @@ import dev.cheerfun.pixivic.biz.event.constant.ObjectType;
 import dev.cheerfun.pixivic.biz.event.domain.Event;
 import dev.cheerfun.pixivic.biz.notify.customer.NotifyEventCustomer;
 import dev.cheerfun.pixivic.biz.notify.po.NotifyRemind;
+import dev.cheerfun.pixivic.biz.notify.po.NotifySetting;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,11 @@ public class CollectionNotifyEventCustomer extends NotifyEventCustomer {
 
     @Override
     protected Integer querySendTo(Event event) {
+        return null;
+    }
+
+    @Override
+    protected NotifyRemind generateRemind(Event event, Integer sendTo, NotifySetting notifySetting) {
         return null;
     }
 }

@@ -3,6 +3,8 @@ package dev.cheerfun.pixivic.biz.notify.customer.impl;
 import dev.cheerfun.pixivic.biz.event.constant.ObjectType;
 import dev.cheerfun.pixivic.biz.event.domain.Event;
 import dev.cheerfun.pixivic.biz.notify.customer.NotifyEventCustomer;
+import dev.cheerfun.pixivic.biz.notify.po.NotifyAnnounce;
+import dev.cheerfun.pixivic.biz.notify.po.NotifySetting;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -23,5 +25,8 @@ public class IllustNotifyEventCustomer extends NotifyEventCustomer {
         super.notifyAnnounce(event);
     }
 
-
+    @Override
+    protected NotifyAnnounce generateAnnounce(Event event, NotifySetting notifySetting) {
+        return null;
+    }
 }

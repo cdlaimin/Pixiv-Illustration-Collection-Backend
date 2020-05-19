@@ -57,6 +57,14 @@ public class NotifyRemind implements Serializable {
      */
     private String objectContent;
     /**
+     * 动作产生的对象id
+     */
+    private Integer actionObjectId;
+    /**
+     * 动作产生的对象的内容
+     */
+    private String actionObjectContent;
+    /**
      * 接收者id
      */
     private Integer recipientId;

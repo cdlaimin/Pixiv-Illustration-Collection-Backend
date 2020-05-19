@@ -25,7 +25,7 @@ public class Event implements Serializable {
     private String action;
     private String objectType;
     private Integer objectId;
-    private String objectTitle;
+    private Integer actionObjectId;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime createDate;
