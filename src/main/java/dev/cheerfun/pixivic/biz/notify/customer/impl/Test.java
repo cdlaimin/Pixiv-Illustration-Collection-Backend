@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class Test {
     @Autowired
-    CommentNotifyEventCustomer commentNotifyEventCustomer;
+    IllustNotifyEventCustomer commentNotifyEventCustomer;
 
     @RequestMapping("fanggzhou/test")
     public void test() {

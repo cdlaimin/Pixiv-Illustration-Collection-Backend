@@ -18,7 +18,7 @@ public interface NotifyRemindMapper {
 
     @Insert({
                     "    <script>\n" +
-                    "      insert into notify_announce\n" +
+                    "      insert into notify_remind\n" +
                     "      <trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">\n" +
                     "        <if test=\"notifyRemind.notifyRemindId != null\">\n" +
                     "          notify_remind_id,\n" +
