@@ -1,8 +1,6 @@
 package dev.cheerfun.pixivic.biz.notify.mapper;
 
-import dev.cheerfun.pixivic.biz.notify.po.NotifyBanSetting;
 import dev.cheerfun.pixivic.biz.notify.po.NotifyRemind;
-import dev.cheerfun.pixivic.biz.notify.po.NotifySettingConfig;
 import dev.cheerfun.pixivic.biz.web.comment.po.Comment;
 import dev.cheerfun.pixivic.common.util.json.JsonTypeHandler;
 import org.apache.ibatis.annotations.*;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,19 +17,21 @@ import java.time.LocalDateTime;
  */
 @Data
 @AllArgsConstructor
+@Builder
 public class NotifyRemind {
-    private Integer id;
+    private Integer notifyRemindId;
+    private String notifyType;
     private Integer senderId;
     private String senderName;
     private String senderAction;
-    private Integer objectId;
     private String objectType;
+    private Integer objectId;
+    private String objectTitle;
     private Integer recipientId;
-    private String message;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime createDate;
-    private Integer status;
+    private Boolean readStatus;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime readAt;
