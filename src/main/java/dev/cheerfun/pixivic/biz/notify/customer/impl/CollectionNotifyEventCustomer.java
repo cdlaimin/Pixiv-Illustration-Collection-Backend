@@ -23,4 +23,9 @@ public class CollectionNotifyEventCustomer extends NotifyEventCustomer {
     public void consume(Event event) {
         super.notifyAny(event);
     }
+
+    @Override
+    protected Integer querySendTo(Event event) {
+        return null;
+    }
 }
