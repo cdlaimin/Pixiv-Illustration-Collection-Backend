@@ -32,7 +32,16 @@ public class CommentNotifyEventCustomer extends NotifyEventCustomer {
 
     @Override
     protected NotifyRemind generateRemind(Event event, Integer sendTo, NotifySetting notifySetting) {
-        return null;
+        return NotifyRemind.builder()
+                .senderId(event.getUserId())
+                .senderName(event.getUserName())
+                .notifyType(notifySetting.getNotifyType())
+                .senderAction(event.getAction())
+                .objectType(event.getObjectType())
+                .objectId(event.getObjectId())
+                // todo objectTitle content actionObjectId
+                .actionObjectId(event.getActionObjectId())
+                .recipientId(sendTo).build();
     }
 
 }

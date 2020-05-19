@@ -70,7 +70,7 @@ public abstract class NotifyEventCustomer {
 
 
     private NotifySetting queryNotifySetting(String objectType, String action) {
-        return notifyService.getNotifySetting(objectType, objectType);
+        return notifyService.getNotifySetting(objectType, action);
     }
 
     protected Integer querySendTo(Event event) {
