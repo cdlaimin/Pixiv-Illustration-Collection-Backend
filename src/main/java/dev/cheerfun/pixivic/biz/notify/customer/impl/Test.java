@@ -3,9 +3,8 @@ package dev.cheerfun.pixivic.biz.notify.customer.impl;
 import dev.cheerfun.pixivic.common.constant.RedisKeyMetaDataEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *  * @Description TODO
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *  * @Version V1.0
  *  
  */
-@Controller
+@RestController
 public class Test {
     @Autowired
     IllustNotifyEventCustomer commentNotifyEventCustomer;
