@@ -1,8 +1,10 @@
 package dev.cheerfun.pixivic.biz.notify.customer.impl;
 
-import dev.cheerfun.pixivic.biz.event.domain.Event;
+import dev.cheerfun.pixivic.common.constant.RedisKeyMetaDataEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -18,15 +20,16 @@ public class Test {
     @Autowired
     IllustNotifyEventCustomer commentNotifyEventCustomer;
 
-    @RequestMapping("fanggzhou/test")
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @GetMapping("/123/123")
     public void test() {
-        Event event = Event.builder()
-                .userId(123)
-                .userName("test")
-                .objectType("test")
-                .action("test")
-                .objectId(123)
-                .build();
-        commentNotifyEventCustomer.consume(event);
+        String key = RedisKeyMetaDataEnum.NOTIFY_EVENT_REPLACE.getKey("eventId");
+        if (!redisTemplate.opsForValue().setIfAbsent(key, "true",
+                RedisKeyMetaDataEnum.NOTIFY_EVENT_REPLACE.getExpired(),
+                RedisKeyMetaDataEnum.NOTIFY_EVENT_REPLACE.getTimeUnit())) {
+            System.out.println(111);
+        }
     }
 }

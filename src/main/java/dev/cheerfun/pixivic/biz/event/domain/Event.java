@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class Event implements Serializable {
+    private String eventId;
     private Integer userId;
     private String userName;
     private String action;

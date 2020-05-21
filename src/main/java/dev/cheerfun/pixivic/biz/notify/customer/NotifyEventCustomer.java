@@ -6,9 +6,15 @@ import dev.cheerfun.pixivic.biz.notify.po.NotifyAnnounce;
 import dev.cheerfun.pixivic.biz.notify.po.NotifyRemind;
 import dev.cheerfun.pixivic.biz.notify.po.NotifySetting;
 import dev.cheerfun.pixivic.biz.notify.service.NotifyService;
+import dev.cheerfun.pixivic.common.constant.RedisKeyMetaDataEnum;
+import dev.cheerfun.pixivic.common.exception.NotifyProcessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
+import java.util.Objects;
 
 
 public abstract class NotifyEventCustomer {
@@ -18,7 +24,34 @@ public abstract class NotifyEventCustomer {
     @Autowired
     private NotifyService notifyService;
 
-    protected abstract void consume(Event event);
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @RabbitHandler()
+    public void consume(Event event) {
+        if (Objects.isNull(event)) {
+            logger.warn("NotifyEventCustomer event is null!");
+            return;
+        }
+        String eventId = event.getEventId();
+        String key = RedisKeyMetaDataEnum.NOTIFY_EVENT_REPLACE.getKey(eventId);
+        if (!redisTemplate.opsForValue().setIfAbsent(key, "true",
+                RedisKeyMetaDataEnum.NOTIFY_EVENT_REPLACE.getExpired(),
+                RedisKeyMetaDataEnum.NOTIFY_EVENT_REPLACE.getTimeUnit())) {
+            logger.warn("NotifyEventCustomer consumer replace, event:{}", event);
+            return;
+        }
+        try {
+            process(event);
+        } catch (Exception e) {
+            logger.error("NotifyEventCustomer process error, event:" + event, e);
+            redisTemplate.delete(key);
+            // 此处需设置重试
+            throw new NotifyProcessException(e);
+        }
+    }
+
+    protected abstract void process(Event event);
 
     /**
      * 不做大范围通知，大范围通知用别的方案

@@ -20,8 +20,7 @@ import org.springframework.stereotype.Component;
 public class CommentNotifyEventCustomer extends NotifyEventCustomer {
 
     @Override
-    @RabbitHandler()
-    public void consume(Event event) {
+    protected void process(Event event) {
         super.notifyAny(event);
     }
 
