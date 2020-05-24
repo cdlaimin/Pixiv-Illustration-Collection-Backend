@@ -3,6 +3,7 @@ package dev.cheerfun.pixivic.biz.push.service;
 import dev.cheerfun.pixivic.biz.push.dao.PushSettingMapper;
 import dev.cheerfun.pixivic.biz.push.dto.MessageDTO;
 import dev.cheerfun.pixivic.biz.push.dto.PixvicPushRemind;
+import dev.cheerfun.pixivic.biz.push.mq.publisher.PushPublisher;
 import dev.cheerfun.pixivic.biz.push.po.PushSetting;
 import dev.cheerfun.pixivic.biz.web.user.po.UserInformation;
 import dev.cheerfun.pixivic.biz.web.user.service.CommonService;
@@ -42,7 +43,7 @@ public class PixivicPush {
     private PushSettingMapper pushSettingMapper;
 
     @Autowired
-    private PushWrapper pushWrapper;
+    private PushPublisher pushPublisher;
 
     public void push(PixvicPushRemind remind) {
         String objectType = remind.getObjectType();
@@ -64,7 +65,7 @@ public class PixivicPush {
                 return;
             }
             MessageDTO messageDTO = assemblingMessage(remind, userInformation, pushSetting, recordNum);
-            pushWrapper.sendMessage(messageDTO);
+            pushPublisher.send(messageDTO);
         } catch (Exception e) {
             LOGGER.error("PixivicPush push error,remind:" + remind, e);
         }
