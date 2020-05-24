@@ -1,6 +1,7 @@
 package dev.cheerfun.pixivic.biz.web.user.mapper;
 
 import dev.cheerfun.pixivic.biz.web.common.po.User;
+import dev.cheerfun.pixivic.biz.web.user.po.UserInformation;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -92,4 +93,19 @@ public interface CommonMapper {
 
     @Update("update users set gender=#{gender} ,signature=#{signature},location=#{location}  where user_id=#{userId}")
     Integer updateUserInfo(int userId, Integer gender, String signature, String location);
+
+    @Insert("REPLACE INTO user_information(user_id, phone_model, push_platform, push_unique_code) " +
+            "VALUES (#{userId}, #{phoneModel}, #{pushPlatform}, #{pushUniqueCode})")
+    Integer replaceIntoUserInformation(UserInformation info);
+
+    @Select("select * from user_information where user_id = #{userId}")
+    @Results({
+            @Result(property = "userInformationId", column = "user_push_information_id"),
+            @Result(property = "userId", column = "user_id"),
+            @Result(property = "phoneModel", column = "phone_model"),
+            @Result(property = "pushPlatform", column = "push_platform"),
+            @Result(property = "pushUniqueCode", column = "push_unique_code"),
+            @Result(property = "lastUpdatedTime", column = "last_updated_time", typeHandler = org.apache.ibatis.type.LocalDateTimeTypeHandler.class)
+    })
+    UserInformation queryUserInformation(Integer userId);
 }

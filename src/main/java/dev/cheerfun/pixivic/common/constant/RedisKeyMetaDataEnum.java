@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit;
  */
 public enum RedisKeyMetaDataEnum {
 
-    NOTIFY_EVENT_REPLACE("no","en",":",60L * 60L,TimeUnit.SECONDS);
+    NOTIFY_EVENT_REPLACE("no", "en", ":", 60L * 60L, TimeUnit.SECONDS),
+    PUSH_RECORD("pu", "re", ":", null, null);
 
     /**
      * 模块
@@ -71,6 +72,15 @@ public enum RedisKeyMetaDataEnum {
 
     public String getKey(String bizKey) {
         return model + split + prefix + split + bizKey;
+    }
+
+    public String getKey(String... bizKey) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(model).append(split).append(prefix).append(split);
+        for (String key : bizKey) {
+            sb.append(key).append("_");
+        }
+        return sb.substring(0, sb.length() - 1);
     }
 
     @Override

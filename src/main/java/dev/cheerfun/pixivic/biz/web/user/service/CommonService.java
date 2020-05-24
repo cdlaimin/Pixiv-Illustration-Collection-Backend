@@ -6,6 +6,7 @@ import dev.cheerfun.pixivic.biz.web.common.exception.BusinessException;
 import dev.cheerfun.pixivic.biz.web.common.exception.UserCommonException;
 import dev.cheerfun.pixivic.biz.web.common.po.User;
 import dev.cheerfun.pixivic.biz.web.user.mapper.CommonMapper;
+import dev.cheerfun.pixivic.biz.web.user.po.UserInformation;
 import dev.cheerfun.pixivic.biz.web.user.util.PasswordUtil;
 import dev.cheerfun.pixivic.common.util.EmailUtil;
 import lombok.RequiredArgsConstructor;
@@ -181,4 +182,13 @@ public class CommonService {
     public void updateUserInfo(int userId, User user) {
         userMapper.updateUserInfo(userId, user.getGender(), user.getSignature(), user.getLocation());
     }
+
+    public void replaceIntoUserInformation(UserInformation userInformation) {
+        userMapper.replaceIntoUserInformation(userInformation);
+    }
+
+    public UserInformation queryUserInformation(Integer userId) {
+        return userMapper.queryUserInformation(userId);
+    }
+
 }

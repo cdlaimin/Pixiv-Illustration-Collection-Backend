@@ -7,6 +7,7 @@ import dev.cheerfun.pixivic.biz.web.common.po.User;
 import dev.cheerfun.pixivic.biz.web.user.dto.ResetPasswordDTO;
 import dev.cheerfun.pixivic.biz.web.user.dto.SignInDTO;
 import dev.cheerfun.pixivic.biz.web.user.dto.SignUpDTO;
+import dev.cheerfun.pixivic.biz.web.user.po.UserInformation;
 import dev.cheerfun.pixivic.biz.web.user.service.CommonService;
 import dev.cheerfun.pixivic.common.constant.AuthConstant;
 import dev.cheerfun.pixivic.common.context.AppContext;
@@ -151,4 +152,8 @@ public class CommonController {
         return ResponseEntity.ok().body(new Result<>("发送邮箱验证邮件成功"));
     }
 
+    @PostMapping("/")
+    public ResponseEntity<Result> collectUserInformation(@RequestBody UserInformation userInformation) {
+        return null;
+    }
 }

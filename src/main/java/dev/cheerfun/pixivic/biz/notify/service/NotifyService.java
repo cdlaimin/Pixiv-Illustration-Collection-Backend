@@ -95,7 +95,7 @@ public class NotifyService implements InitializingBean {
     }
 
     /**
-     * todo c段分页查询
+     * todo c端分页查询
      * @param userId
      * @return
      */
