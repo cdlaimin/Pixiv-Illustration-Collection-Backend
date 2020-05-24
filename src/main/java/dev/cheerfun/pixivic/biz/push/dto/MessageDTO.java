@@ -17,6 +17,14 @@ public class MessageDTO implements Serializable {
     private static final long serialVersionUID = -687845248418773883L;
 
     /**
+     * 消息唯一id
+     */
+    private Integer messageId;
+    /**
+     * 手机系统
+     */
+    private String phoneSystem;
+    /**
      * 使用哪个平台推送
      */
     private String pushPlatform;

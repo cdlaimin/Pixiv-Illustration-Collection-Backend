@@ -71,6 +71,7 @@ public class PixivicPush {
 
     }
 
+    // todo
     private MessageDTO assemblingMessage(PixvicPushRemind remind, UserInformation userInfo,
                                          PushSetting setting, Long recordNum) {
         return null;
