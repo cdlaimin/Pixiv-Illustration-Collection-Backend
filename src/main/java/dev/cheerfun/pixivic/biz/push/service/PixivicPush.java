@@ -1,16 +1,15 @@
 package dev.cheerfun.pixivic.biz.push.service;
 
 import dev.cheerfun.pixivic.biz.push.dao.PushSettingMapper;
+import dev.cheerfun.pixivic.biz.push.dto.MessageDTO;
 import dev.cheerfun.pixivic.biz.push.dto.PixvicPushRemind;
 import dev.cheerfun.pixivic.biz.push.po.PushSetting;
-import dev.cheerfun.pixivic.biz.push.service.channel.ChannelPush;
 import dev.cheerfun.pixivic.biz.web.user.po.UserInformation;
 import dev.cheerfun.pixivic.biz.web.user.service.CommonService;
 import dev.cheerfun.pixivic.common.constant.RedisKeyMetaDataEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -43,35 +42,47 @@ public class PixivicPush {
     private PushSettingMapper pushSettingMapper;
 
     @Autowired
-    private ApplicationContext context;
+    private PushWrapper pushWrapper;
 
     public void push(PixvicPushRemind remind) {
         String objectType = remind.getObjectType();
         String senderAction = remind.getSenderAction();
         Integer recipientId = remind.getRecipientId();
-        UserInformation userInformation = commonService.queryUserInformation(recipientId);
-        if (Objects.isNull(userInformation)) {
-            return;
+        try {
+            UserInformation userInformation = commonService.queryUserInformation(recipientId);
+            if (Objects.isNull(userInformation)) {
+                return;
+            }
+            PushSetting pushSetting = getPushSetting(objectType, senderAction);
+            if (Objects.isNull(pushSetting)) {
+                return;
+            }
+            String recordKey = RedisKeyMetaDataEnum.PUSH_RECORD.
+                    getKey(String.valueOf(recipientId), objectType, senderAction);
+            Long recordNum = redisTemplate.opsForValue().increment(recordKey);
+            if (!whetherPush(recordNum, pushSetting.getPushLimit())) {
+                return;
+            }
+            MessageDTO messageDTO = assemblingMessage(remind, userInformation, pushSetting, recordNum);
+            pushWrapper.sendMessage(messageDTO);
+        } catch (Exception e) {
+            LOGGER.error("PixivicPush push error,remind:" + remind, e);
         }
-        PushSetting pushSetting = getPushSetting(objectType, senderAction);
-        if (Objects.isNull(pushSetting)) {
-            return;
-        }
-        String recordKey = RedisKeyMetaDataEnum.PUSH_RECORD.
-                getKey(String.valueOf(recipientId), objectType, senderAction);
-        Long recordNum = redisTemplate.opsForValue().increment(recordKey);
-        if (!whetherPush(recordNum, pushSetting.getPushLimit())) {
-            return;
-        }
-        // todo 发送
+
     }
+
+    private MessageDTO assemblingMessage(PixvicPushRemind remind, UserInformation userInfo,
+                                         PushSetting setting, Long recordNum) {
+        return null;
+    }
+
 
     private boolean whetherPush(final Long recordNum, List<Long> limit) {
         for (Long l : limit) {
-            if (recordNum < l) {
+            int compareResult = recordNum.compareTo(l);
+            if (compareResult < 0) {
                 return false;
-            }
-            if (recordNum == l) {
+            } else if (compareResult == 0) {
                 return true;
             }
         }
@@ -91,8 +102,4 @@ public class PixivicPush {
         return pushSetting;
     }
 
-
-    private ChannelPush getChannelPush(String pushPlatform) {
-        return (ChannelPush) context.getBean(pushPlatform);
-    }
 }

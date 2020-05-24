@@ -1,5 +1,7 @@
 package dev.cheerfun.pixivic.biz.push.service.channel;
 
+import dev.cheerfun.pixivic.biz.push.dto.MessageDTO;
+
 /**
  *  * @Description TODO
  *  * @Classname ChannelPush
@@ -9,5 +11,5 @@ package dev.cheerfun.pixivic.biz.push.service.channel;
  *  
  */
 public interface ChannelPush {
-    void sendMessage() throws Exception;
+    void sendMessage(MessageDTO message) throws Exception;
 }
