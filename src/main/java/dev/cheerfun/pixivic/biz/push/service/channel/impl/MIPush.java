@@ -5,7 +5,6 @@ import com.xiaomi.xmpush.server.Message;
 import com.xiaomi.xmpush.server.Result;
 import com.xiaomi.xmpush.server.Sender;
 import dev.cheerfun.pixivic.biz.push.dto.MessageDTO;
-import dev.cheerfun.pixivic.biz.push.service.channel.ChannelPush;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Service;
  *  * @Version V1.0
  *  
  */
-@Service("MIPush")
-public class MIPush implements ChannelPush {
+@Service("mIPush")
+public class MIPush {
 
     @Value("${MIPush.security}")
     private String security;
@@ -27,11 +26,16 @@ public class MIPush implements ChannelPush {
 
     {
         // 使用线上环境
-        sender = new Sender(security);
+        sender = new Sender("32GA9ewk795sdMcrTL727Q==");
         Constants.useOfficial();
     }
 
-    public void sendMessage(MessageDTO message) throws Exception {
+    public static void main(String[] args) throws Exception {
+        MIPush miPush = new MIPush();
+        miPush.sendMessage();
+    }
+
+    public void sendMessage() throws Exception {
 
         String messagePayload = "This is a message";
         String title = "notification title";
@@ -43,7 +47,8 @@ public class MIPush implements ChannelPush {
                 .restrictedPackageName("")
                 .notifyType(1)     // 使用默认提示音提示
                 .build();
-        Result result = sender.send(miMessage, "123", 3);
+        Result result = sender.send(miMessage, "uOa5hiSEZBdwmq7+uiDLa9ap91fj2ilyr751/DJTggrBqS3HeUtd/tlcxECB8Uzf", 3);
+        System.out.println(result);
     }
 
     // todo
