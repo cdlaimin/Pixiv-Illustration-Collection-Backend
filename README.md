@@ -53,3 +53,8 @@
 [html](https://github.com/OysterQAQ/Pixiv-Illustration-Collection-Backend/blob/master/Pixivic.com%20Api%20Doc.html)
 
 [md](https://github.com/OysterQAQ/Pixiv-Illustration-Collection-Backend/blob/master/Pixivic.com%20Api%20Doc.md)
+
+
+#### Star History
+
+![stars](https://starchart.cc/OysterQAQ/Pixiv-Illustration-Collection-Backend.svg)
